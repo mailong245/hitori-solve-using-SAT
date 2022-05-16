@@ -118,13 +118,14 @@ public class HitoriSolver {
                 if (x + a >= 0 && x + a < Rows                                          // x phải nằm trong row sau khi đã +-1
                         && y + b >= 0 && y + b < Columns                                // y phải nằm trong row sau khi đã +-1
                         && !cycle.get(cycle.size() - 1).equals(white[x + a][y + b])) {
-                    k[c] = cycle.indexOf(white[x + a][y + b]);
+                    k[c] = cycle.indexOf(white[x + a][y + b]);                          // Tìm kiếm xem có giá trị nào đã nằm trong cycle chưa
                     c++;
                 }
 
         for (int i = 0; i < c; i++)
             if (k[i] > 0) return;
         for (int i = 0; i < c; i++)
+            // Nếu giá trị tiếp theo lại nằm ở index 0 (nghĩa là quay lại giá trị gốc tạo thành một vòng tròn)
             if (k[i] == 0) {
                 int[] ints = new int[cycle.size() + 1];
                 for (int j = 0, len = cycle.size(); j < len; j++)
@@ -159,8 +160,8 @@ public class HitoriSolver {
                     }
                 }
 
-        if ((x == 0 || y == 0 || x == Rows - 1 || y == Columns - 1)
-                && white[x][y] > chain.get(0)) {
+        if ((x == 0 || y == 0 || x == Rows - 1 || y == Columns - 1)                 // Duyệt khi mà index chạm đến cuối của bản, cô lập 1 vùng
+                && white[x][y] > chain.get(0)) {                                    // Giá trị tiếp theo phải lớn hơn giá trị trước
             int[] ints = new int[chain.size() + 1];
             for (int i = 0, len = chain.size(); i < len; i++)
                 ints[i] = chain.get(i);
@@ -212,7 +213,9 @@ public class HitoriSolver {
             return true;
         } else if (!isAblePaint[x][y]) {
             return true;
-        } else if (chainOrCycle.contains(white[x][y])) {
+        }
+        // Kiểm tra xem có phải giá trị mới hay không
+        else if (chainOrCycle.contains(white[x][y])) {
             return true;
         }
         return false;
